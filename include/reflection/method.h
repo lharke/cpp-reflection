@@ -95,6 +95,11 @@ namespace rc::reflection
             throw unknown_method("unknown signature " + std::to_string(hash) + " for method " + name());
         }
 
+        bool hasOverload(std::size_t hash, Qualifier qualifier) const noexcept
+        {
+            return _overloads.contains({hash, qualifier});
+        }
+
         template <typename R, typename C, typename... Ts>
         void addOverload(std::function<R(C *, Ts...)> fn, Method::Qualifier qualifier)
         {

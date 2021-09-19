@@ -38,7 +38,7 @@ namespace rc::reflection
 
     bool Library::exists(std::string name) const noexcept
     {
-        return d->metaObjects.count(name) != 0;
+        return d->metaObjects.contains(name);
     }
 
     std::vector<const MetaObject *> Library::metaObjects() const noexcept

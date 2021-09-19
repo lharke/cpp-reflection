@@ -39,12 +39,18 @@ namespace rc::reflection
         /* Base Classes */
 
         std::vector<const MetaObject *> bases() const noexcept { return _bases; }
+
         const MetaObject &base(std::string name) const
         {
             if (auto where = std::ranges::find_if(_bases, [&name](const auto &base) { return base->name() == name; }); where != _bases.end())
                 return **where;
 
             throw unknown_type(name);
+        }
+
+        bool hasBase(std::string name) const noexcept
+        {
+            return std::ranges::any_of(_bases, [&name](const auto& base) { return base->name() == name; });
         }
 
         /* Constructors */
@@ -62,6 +68,11 @@ namespace rc::reflection
                 return where->second;
 
             throw unknown_constructor(std::to_string(hash));
+        }
+
+        bool hasConstructor(std::size_t hash) const noexcept
+        {
+            return _constructors.contains(hash);
         }
 
         template <typename R, typename... Ts>
@@ -89,6 +100,11 @@ namespace rc::reflection
                 return where->second;
 
             throw unknown_method(name);
+        }
+
+        bool hasMethod(std::string name) const noexcept
+        {
+            return _methods.contains(name);
         }
 
         template <typename R, typename C, typename... Ts>
@@ -144,6 +160,11 @@ namespace rc::reflection
             throw unknown_property(name);
         }
 
+        bool hasProperty(std::string name) const noexcept
+        {
+            return _properties.contains(name);
+        }
+
         template <typename C, typename T>
         void addProperty(std::string name, std::function<T(const C *)> getter, std::function<void(C *, T)> setter)
         {
@@ -168,6 +189,11 @@ namespace rc::reflection
                 return where->second;
 
             throw unknown_event(name);
+        }
+
+        bool hasEvent(std::string name) const noexcept
+        {
+            return _events.contains(name);
         }
 
         template <typename... Ts>
