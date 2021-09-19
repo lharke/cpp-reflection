@@ -9,7 +9,7 @@ namespace rc::reflection
     class GenericFunction : private utility::non_copyable
     {
     protected:
-        GenericFunction(std::size_t hash) noexcept :
+        explicit GenericFunction(std::size_t hash) noexcept :
             _hash(hash)
         {
         }
@@ -31,7 +31,7 @@ namespace rc::reflection
     class SpecificFunction final : public GenericFunction
     {
     public:
-        SpecificFunction(std::function<R(Ts...)> fn) noexcept :
+        explicit SpecificFunction(std::function<R(Ts...)> fn) noexcept :
             GenericFunction(utility::signatureHash<Ts...>()),
             _fn(fn)
         {

@@ -13,7 +13,7 @@ namespace rc::reflection
     {
     public:
         template <typename C, typename T>
-        Property(std::string name, std::function<T(const C *)> getter, std::function<void(C *, T)> setter) noexcept :
+        explicit Property(std::string name, std::function<T(const C *)> getter, std::function<void(C *, T)> setter) noexcept :
             _name(name),
             _type(typeid(T)),
             _getter(std::make_unique<SpecificFunction<T, const C *>>(getter)),
