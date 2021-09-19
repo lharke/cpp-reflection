@@ -2,18 +2,29 @@
 
 #include <functional>
 
+#include "reflection/utility.h"
+
 namespace rc::reflection
 {
-    class GenericFunction
+    class GenericFunction : private utility::non_copyable
     {
     protected:
-        GenericFunction() noexcept
+        GenericFunction(std::size_t hash) noexcept :
+            _hash(hash)
         {
         }
 
     public:
         template <typename R, typename... Ts>
         R invoke(Ts... args) const;
+
+        std::size_t hash() const noexcept
+        {
+            return _hash;
+        }
+
+    private:
+        std::size_t _hash;
     };
 
     template <typename R, typename... Ts>
@@ -21,6 +32,7 @@ namespace rc::reflection
     {
     public:
         SpecificFunction(std::function<R(Ts...)> fn) noexcept :
+            GenericFunction(utility::signatureHash<Ts...>()),
             _fn(fn)
         {
         }

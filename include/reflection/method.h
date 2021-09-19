@@ -14,7 +14,7 @@
 
 namespace rc::reflection
 {
-    class Method final
+    class Method final : private utility::non_copyable
     {
     public:
         enum class Qualifier
@@ -24,14 +24,13 @@ namespace rc::reflection
             Static
         };
 
-        class Overload final
+        class Overload final : private utility::non_copyable
         {
         public:
             template <typename R, typename C, typename... Ts>
             explicit Overload(std::function<R(C *, Ts...)> fn, Qualifier qualifier) noexcept :
                 _returnType(typeid(R)),
                 _argumentTypes(utility::signature<Ts...>()),
-                _hash(utility::signatureHash<Ts...>()),
                 _function(std::make_unique<SpecificFunction<R, C *, Ts...>>(fn)),
                 _qualifier(qualifier)
             {
@@ -41,7 +40,6 @@ namespace rc::reflection
             explicit Overload(std::function<R(Ts...)> fn) noexcept :
                 _returnType(typeid(R)),
                 _argumentTypes(utility::signature<Ts...>()),
-                _hash(utility::signatureHash<Ts...>()),
                 _function(std::make_unique<SpecificFunction<R, Ts...>>(fn)),
                 _qualifier(Method::Qualifier::Static)
             {
@@ -49,7 +47,7 @@ namespace rc::reflection
 
             std::type_index returnType() const noexcept { return _returnType; }
             std::vector<std::type_index> argumentTypes() const noexcept { return _argumentTypes; }
-            std::size_t hash() const noexcept { return _hash; }
+            std::size_t hash() const noexcept { return _function->hash(); };
 
             Qualifier qualifier() const noexcept { return _qualifier; };
 
@@ -68,7 +66,6 @@ namespace rc::reflection
         private:
             std::type_index _returnType;
             std::vector<std::type_index> _argumentTypes;
-            std::size_t _hash;
             std::unique_ptr<GenericFunction> _function;
             Qualifier _qualifier;
         };
@@ -91,7 +88,7 @@ namespace rc::reflection
         {
             if (auto where = _overloads.find({hash, qualifier}); where != _overloads.end())
                 return where->second;
-            else if(qualifier == Qualifier::Mutable)
+            else if(qualifier == Qualifier::Mutable) // const methods can be called on non-const objects
                 if (auto where = _overloads.find({hash, Qualifier::Immutable}); where != _overloads.end())
                     return where->second;
 

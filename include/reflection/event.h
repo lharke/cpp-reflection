@@ -11,15 +11,12 @@
 
 namespace rc::reflection
 {
-    class Event final
+    class Event final : private utility::non_copyable
     {
     public:
-        class Subscription final
+        class Subscription final : private utility::non_copyable
         {
             friend class Event;
-
-        public:
-            bool operator==(const Subscription& other) const noexcept { return _handler == other._handler; }
 
         protected:
             template <typename... Ts>
@@ -33,6 +30,9 @@ namespace rc::reflection
             {
                 _handler->invoke<void>(args...);
             }
+
+        public:
+            bool operator==(const Subscription& other) const noexcept { return _handler == other._handler; }
 
         private:
             std::unique_ptr<GenericFunction> _handler;

@@ -8,7 +8,7 @@
 
 namespace rc::reflection
 {
-    class Library
+    class Library : private utility::non_copyable
     {
         Library() noexcept;
 

@@ -20,7 +20,7 @@
 
 namespace rc::reflection
 {
-    class MetaObject final
+    class MetaObject final : private utility::non_copyable
     {
     public:
         explicit MetaObject(std::string name, std::type_index type, std::vector<const MetaObject *> bases = {}) noexcept :

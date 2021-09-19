@@ -9,7 +9,7 @@
 
 namespace rc::reflection
 {
-    class Property final
+    class Property final : private utility::non_copyable
     {
     public:
         template <typename C, typename T>
