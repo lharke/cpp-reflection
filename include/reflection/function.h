@@ -49,7 +49,6 @@ namespace rc::reflection
     template <typename R, typename... Ts>
     R GenericFunction::invoke(Ts... args) const
     {
-        // TODO: totally not typesafe, check with is_invocable beforehand
         return static_cast<const SpecificFunction<R, Ts...> *>(this)->invoke(args...);
     }
 }

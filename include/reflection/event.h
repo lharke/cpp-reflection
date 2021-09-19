@@ -52,7 +52,6 @@ namespace rc::reflection
         template <typename... Ts>
         Subscription subscribe(std::function<void(Ts...)> handler) const
         {
-            // TODO: use is_invocable for more flexibility
             static const auto signatureHash = utility::signatureHash<Ts...>();
             if (signatureHash != hash())
                 throw invalid_event_type("handler with arguments " + utility::signatureString<Ts...>() + " is incompatible with event arguments " + utility::signatureString(argumentTypes()) + " of event " + name());
@@ -63,7 +62,6 @@ namespace rc::reflection
         template <typename... Ts>
         void invoke(const Subscription &subscription, Ts... args) const
         {
-            // TODO: use is_invocable for more flexibility
             static const auto signatureHash = utility::signatureHash<Ts...>();
             if (signatureHash != hash())
                 throw invalid_event_type("passed arguments " + utility::signatureString<Ts...>() + " are incompatible with event arguments " + utility::signatureString(argumentTypes()) + " of event " + name());

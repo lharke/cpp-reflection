@@ -7,6 +7,7 @@
 
 #include "reflection/utility.h"
 #include "reflection/function.h"
+#include "reflection/exceptions.h"
 
 namespace rc::reflection
 {
@@ -28,6 +29,10 @@ namespace rc::reflection
         template <typename R, typename... Ts>
         R invoke(Ts... args) const
         {
+            static const auto signatureHash = utility::signatureHash<Ts...>();
+            if (signatureHash != hash())
+                throw invalid_method_type("passed arguments " + utility::signatureString<Ts...>() + " are incompatible with constructor arguments " + utility::signatureString(argumentTypes()));
+
             return _function->invoke<R>(args...);
         }
 

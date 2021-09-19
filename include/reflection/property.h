@@ -6,6 +6,7 @@
 
 #include "reflection/utility.h"
 #include "reflection/function.h"
+#include "reflection/exceptions.h"
 
 namespace rc::reflection
 {
@@ -28,14 +29,18 @@ namespace rc::reflection
         template <typename C, typename T>
         T get(const C *instance) const
         {
-            // TODO: check types
+            if (typeid(T).hash_code() != hash())
+                throw invalid_property_type("type " + std::string(typeid(T).name()) + " is incompatible with type " + std::string(type().name()) + " for getter of property " + name());
+
             return _getter->invoke<T>(instance);
         }
 
         template <typename C, typename T>
         void set(C *instance, T value) const
         {
-            // TODO: check types
+            if (typeid(T).hash_code() != hash())
+                throw invalid_property_type("type " + std::string(typeid(T).name()) + " is incompatible with type " + std::string(type().name()) + " for setter of property " + name());
+
             _setter->invoke<void>(instance, value);
         }
 

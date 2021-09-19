@@ -54,12 +54,18 @@ namespace rc::reflection
             template <typename R, typename C, typename... Ts>
             R invoke(C *instance, Ts... args) const
             {
+                if (typeid(R).hash_code() != returnType().hash_code())
+                    throw invalid_method_type("type " + std::string(typeid(R).name()) + " is incompatible with return type " + std::string(returnType().name()));
+
                 return _function->invoke<R>(instance, args...);
             }
 
             template <typename R, typename... Ts>
             R invoke(Ts... args) const
             {
+                if (typeid(R).hash_code() != returnType().hash_code())
+                    throw invalid_method_type("type " + std::string(typeid(R).name()) + " is incompatible with return type " + std::string(returnType().name()));
+
                 return _function->invoke<R>(args...);
             }
 
@@ -125,7 +131,6 @@ namespace rc::reflection
         template <typename R, typename C, typename... Ts>
         R invoke(C *instance, Ts... args, Qualifier qualifier) const try
         {
-            // TODO: use is_invocable to find overload for more flexibility
             static const auto hash = utility::signatureHash<Ts...>();
             return overload(hash, qualifier).invoke<R>(instance, args...);
         }
@@ -133,17 +138,24 @@ namespace rc::reflection
         {
             throw unknown_method("unknown signature " + name() + "(" + utility::signatureString<Ts...>() + ") for method " + name());
         }
+        catch (const invalid_method_type& e)
+        {
+            throw invalid_method_type(std::string(e.what()) + " for method " + name());
+        }
 
         template <typename R, typename... Ts>
         R invoke(Ts... args) const try
         {
-            // TODO: use is_invocable to find overload for more flexibility
             static const auto hash = utility::signatureHash<Ts...>();
             return overload(hash, Method::Qualifier::Static).invoke<R>(args...);
         }
         catch (const unknown_method&)
         {
             throw unknown_method("unknown signature " + name() + "(" + utility::signatureString<Ts...>() + ") for method " + name());
+        }
+        catch (const invalid_method_type& e)
+        {
+            throw invalid_method_type(std::string(e.what()) + " for method " + name());
         }
 
     private:
