@@ -12,7 +12,7 @@
 #include "reflection/function.h"
 #include "reflection/exceptions.h"
 
-namespace rc::reflection
+namespace lh::reflection
 {
     class Method final : private utility::non_copyable
     {

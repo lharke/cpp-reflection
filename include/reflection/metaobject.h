@@ -18,7 +18,7 @@
 #define CLASS_CALLING_CONVENTION
 #endif
 
-namespace rc::reflection
+namespace lh::reflection
 {
     class MetaObject final : private utility::non_copyable
     {
@@ -234,9 +234,9 @@ namespace rc::reflection
 namespace std
 {
     template <>
-    struct hash<rc::reflection::MetaObject>
+    struct hash<lh::reflection::MetaObject>
     {
-        std::size_t operator()(const rc::reflection::MetaObject &m) const noexcept
+        std::size_t operator()(const lh::reflection::MetaObject &m) const noexcept
         {
             return m.hash();
         }

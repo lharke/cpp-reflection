@@ -4,7 +4,7 @@
 
 #include "reflection/utility.h"
 
-namespace rc::reflection
+namespace lh::reflection
 {
     class GenericFunction : private utility::non_copyable
     {

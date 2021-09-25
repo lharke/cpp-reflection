@@ -2,7 +2,7 @@
 #include <catch2/catch.hpp>
 #include <reflection/reflectable.h>
 
-using namespace rc::reflection;
+using namespace lh::reflection;
 
 void eventHandler(int count)
 {
@@ -26,7 +26,7 @@ TEST_CASE("Default Construct")
         return count == value;
     }));
 
-    mo.addProperty<Reflectable, int>("count",
+    mo.addProperty("count",
         std::function([&count](const Reflectable*) -> int {
             return count;
         }),

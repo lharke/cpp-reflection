@@ -8,7 +8,7 @@
 
 #include "reflection/metaobject.h"
 
-namespace rc::reflection
+namespace lh::reflection
 {
     class Reflectable
     {
@@ -111,9 +111,9 @@ namespace rc::reflection
 namespace std
 {
     template <>
-    struct hash<rc::reflection::Reflectable>
+    struct hash<lh::reflection::Reflectable>
     {
-        std::size_t operator()(const rc::reflection::Reflectable &r) const noexcept
+        std::size_t operator()(const lh::reflection::Reflectable &r) const noexcept
         {
             return r.hash();
         }

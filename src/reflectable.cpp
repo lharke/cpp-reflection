@@ -1,3 +1,3 @@
 #include "reflection/reflectable.h"
 
-rc::reflection::MetaObject rc::reflection::Reflectable::_metaObject("Reflectable", typeid(Reflectable));
+lh::reflection::MetaObject lh::reflection::Reflectable::_metaObject("Reflectable", typeid(Reflectable));

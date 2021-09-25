@@ -5,7 +5,7 @@
 
 #include "reflection/exceptions.h"
 
-namespace rc::reflection
+namespace lh::reflection
 {
     struct Library::State
     {

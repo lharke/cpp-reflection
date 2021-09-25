@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-namespace rc::reflection
+namespace lh::reflection
 {
     class reflection_error : public std::runtime_error
     {

@@ -1,15 +1,15 @@
 #include "reflectable.h"
 
-class Object : public rc::reflection::Reflectable
+class Object : public lh::reflection::Reflectable
 {
 public:
-    static const rc::reflection::MetaObject &staticMetaObject() { return _metaObject; }
-    virtual const rc::reflection::MetaObject &metaObject() const override { return _metaObject; }
-    static struct MetaObject : public rc::reflection::MetaObject
+    static const lh::reflection::MetaObject &staticMetaObject() { return _metaObject; }
+    virtual const lh::reflection::MetaObject &metaObject() const override { return _metaObject; }
+    static struct MetaObject : public lh::reflection::MetaObject
     {
         using type = Object;
         using base_type = Reflectable;
-        MetaObject() : rc::reflection::MetaObject("Object", {&Reflectable::staticMetaObject()})
+        MetaObject() : lh::reflection::MetaObject("Object", {&Reflectable::staticMetaObject()})
         {
         }
     } _metaObject;
@@ -23,7 +23,7 @@ public:
     }
 };
 
-namespace rc::reflection
+namespace lh::reflection
 {
     void test()
     {

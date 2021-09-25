@@ -2,13 +2,13 @@
 
 #define $reflectable(self, base)                                                                  \
 public:                                                                                           \
-    static const rc::reflection::MetaObject &staticMetaObject() { return _metaObject; }           \
-    virtual const rc::reflection::MetaObject &metaObject() const override { return _metaObject; } \
-    static struct MetaObject : public rc::reflection::MetaObject                                  \
+    static const lh::reflection::MetaObject &staticMetaObject() { return _metaObject; }           \
+    virtual const lh::reflection::MetaObject &metaObject() const override { return _metaObject; } \
+    static struct MetaObject : public lh::reflection::MetaObject                                  \
     {                                                                                             \
         using type = self;                                                                        \
         using base_type = base;                                                                   \
-        MetaObject() : rc::reflection::MetaObject(#self, base::_metaObject)                       \
+        MetaObject() : lh::reflection::MetaObject(#self, base::_metaObject)                       \
         {                                                                                         \
         }                                                                                         \
     } _metaObject;                                                                                \
