@@ -1,0 +1,9 @@
+{
+    "name": "cpp-reflection",
+    "version-string": "0.0.1",
+    "homepage": "https://github.com/lharke/cpp-reflection",
+    "description": "Simple reflection library for modern C++",
+    "dependencies": [
+        "catch2"
+    ]
+}
