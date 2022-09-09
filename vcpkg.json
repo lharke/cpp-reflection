@@ -4,6 +4,7 @@
     "homepage": "https://github.com/lharke/cpp-reflection",
     "description": "Simple reflection library for modern C++",
     "dependencies": [
-        "catch2"
+        "catch2",
+        "benchmark"
     ]
 }
