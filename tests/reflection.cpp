@@ -4,11 +4,6 @@
 
 using namespace lh::reflection;
 
-void eventHandler(int count)
-{
-    std::cout << "count: " << count << std::endl;
-}
-
 TEST_CASE("Default Construct")
 {
     Reflectable testee;
@@ -42,8 +37,6 @@ TEST_CASE("Default Construct")
             count = 43;
     }));
 
-    testee.subscribe("test", std::function(&eventHandler));
-
     testee.event("test", count);
 
     bool result = testee.invoke<bool>("check", 43);
@@ -73,6 +66,9 @@ TEST_CASE("MetaObject Methods")
 
     REQUIRE_NOTHROW(meta.addMethod("check", std::function([](Reflectable*, int value, int test) -> bool {
         return value == test;
+    })));
+
+    REQUIRE_NOTHROW(meta.addMethod("check", std::function([](Reflectable*) -> void {
     })));
 
     REQUIRE(meta.methods().size() == 1);
