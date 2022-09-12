@@ -22,7 +22,7 @@ jobs:
     - uses: turtlebrowser/get-conan@main
 
     - name: Dependencies
-      run: conan install -s build_type=${{env.BUILD_TYPE}} -of ${{github.workspace}}/build
+      run: conan install . -s build_type=${{env.BUILD_TYPE}} -of ${{github.workspace}}/build
 
     - name: Configure
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
